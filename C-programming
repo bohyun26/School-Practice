@@ -1,0 +1,114 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<string.h>
+
+struct members {
+    char name[20];
+    char id[20];
+    char pw[20];
+    int employee_num;
+    int id_length;
+    int pw_length;
+};
+
+int registration(struct members* list, int new) {
+
+    for (int j= 0;j< new;j++) {
+        printf("\n이름: ");
+        scanf("%s", list[j].name);
+        printf("\n사원 번호: ");
+        scanf("%d", &list[j].employee_num);
+
+       while(1) {
+            printf("\n아이디(8자리 이하): ");
+            scanf("%s", list[j].id);
+            list[j].id_length = strlen(list[j].id);
+
+            if (list[j].id_length > 8 || list[j].id_length < 1) {
+                printf("\n아이디는 1~8자리여야 합니다.\n");
+                continue;
+            }
+
+            int t;
+
+            for (t = 0; t < j; t++) {
+                if (strcmp(list[j].id, list[t].id) == 0) {
+                    printf("\n이미 존재하는 아이디입니다.\n");
+                    break;
+                }
+            }
+            if (t != j) continue;
+
+            break;
+        }
+       while(1) {
+
+            printf("\n비밀번호(10자리 이하): ");
+            scanf("%s", list[j].pw);
+            list[j].pw_length = strlen(list[j].pw);
+
+            if (list[j].pw_length > 10 || list[j].pw_length < 1) {
+                printf("\n비밀번호는 1~10자리여야 합니다.\n");
+                continue;
+            }
+            printf("\n가입 완료! \n");
+            break;
+        }
+    }
+    return 0;
+}
+int Login (struct members* list, int new){
+        
+        char id[20];
+        char pw[20];
+        
+        while (1) {
+            printf("아이디: ");
+            scanf("%s", id);
+            printf("비밀번호: ");
+            scanf("%s", pw);
+
+            for (int i = 0; i < new; i++) {
+                if (strcmp(id, list[i].id) == 0 && strcmp(pw, list[i].pw) == 0) {
+                    printf("%d %s님 환영합니다!\n\n", list[i].employee_num, list[i].name);
+                    return 1; 
+                }
+            }
+            printf("엑세스 권한이 없습니다.\n\n");
+        }
+        return 0;
+}
+
+    int main(void) {
+        struct members list[20];
+        int num;
+        int new ;       
+
+        printf("가입할 신입사원 수: ");  
+        scanf("%d", &new);
+
+        while (1) {
+            printf("[***MENU***]\n");
+            printf("1. A회사 깃허브 회원가입\n");
+            printf("2. 로그인\n");
+            printf("3. 프로그램 종료\n");
+            printf("원하는 메뉴를 입력하시오: ");
+            scanf("%d", &num);
+
+            switch (num) {
+           
+            case 1:
+                printf("\n[ A회사 신입사원 깃허브 회원가입 ]\n");
+                registration(list, new);
+                break;   
+            case 2:
+                printf("\n[**깃허브 로그인**]\n\n");
+                Login(list, new);
+                break;
+            case 3:
+                return 0;
+            default:
+                printf("지원되지 않는 메뉴입니다.\n\n");
+            }
+        }
+    }
